@@ -6,6 +6,9 @@
 
 Momentum helps people build realistic daily momentum without turning unfinished work into guilt. It combines smart task planning, focus sessions, mental capture, habits, energy tracking, and calm analytics in a polished Streamlit experience.
 
+[Live Streamlit App](https://momentum-adhd-planner-miss-u.streamlit.app/) |
+[GitHub Repository](https://github.com/MOHAMMED-GHANIM-SIDDIQUI/momentum-adhd-planner)
+
 [![Momentum QA](https://github.com/MOHAMMED-GHANIM-SIDDIQUI/momentum-adhd-planner/actions/workflows/ci.yml/badge.svg)](https://github.com/MOHAMMED-GHANIM-SIDDIQUI/momentum-adhd-planner/actions/workflows/ci.yml)
 ![Streamlit](https://img.shields.io/badge/Streamlit-Product_UI-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white)
