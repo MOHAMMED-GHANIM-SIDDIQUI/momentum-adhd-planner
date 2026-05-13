@@ -60,6 +60,8 @@ def init_state() -> AppState:
         st.session_state.minimal_mode = False
     if "calm_mode" not in st.session_state:
         st.session_state.calm_mode = True
+    if "dark_mode" not in st.session_state:
+        st.session_state.dark_mode = False
     if "focus_mode" not in st.session_state:
         st.session_state.focus_mode = False
     if "focus_task_id" not in st.session_state:
@@ -788,6 +790,155 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+if st.session_state.dark_mode:
+    st.markdown(
+        """
+        <style>
+        :root {
+          --ink: #f8fafc;
+          --ink-soft: #dbeafe;
+          --muted: #94a3b8;
+          --faint: #64748b;
+          --line: rgba(148, 163, 184, 0.20);
+          --line-strong: rgba(226, 232, 240, 0.22);
+          --surface: rgba(15, 23, 42, 0.74);
+          --surface-strong: rgba(15, 23, 42, 0.92);
+          --glass: rgba(15, 23, 42, 0.62);
+          --shadow: 0 24px 80px rgba(2, 6, 23, 0.38);
+          --shadow-soft: 0 16px 45px rgba(2, 6, 23, 0.28);
+        }
+
+        .stApp {
+          background:
+            radial-gradient(circle at 8% 4%, rgba(79, 70, 229, .22), transparent 30%),
+            radial-gradient(circle at 92% 10%, rgba(8, 145, 178, .16), transparent 28%),
+            radial-gradient(circle at 50% 105%, rgba(124, 58, 237, .14), transparent 34%),
+            linear-gradient(180deg, #020617 0%, #0f172a 54%, #111827 100%);
+          color: var(--ink);
+        }
+
+        .stApp::before {
+          background-image:
+            linear-gradient(rgba(226, 232, 240, .035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(226, 232, 240, .035) 1px, transparent 1px);
+        }
+
+        section[data-testid="stSidebar"] > div,
+        .app-topbar,
+        .hero,
+        .glass-card,
+        .coach-card,
+        .empty-state,
+        .task-card,
+        .habit-card,
+        .day-card,
+        .focus-stage,
+        .mental-inbox,
+        .metric-card,
+        .plot-shell,
+        .sidebar-panel {
+          background: rgba(15, 23, 42, .70) !important;
+          border-color: rgba(226, 232, 240, .12) !important;
+          box-shadow: var(--shadow-soft);
+        }
+
+        .hero {
+          background:
+            linear-gradient(135deg, rgba(15,23,42,.88), rgba(30,41,59,.56)),
+            radial-gradient(circle at 78% 14%, rgba(79, 70, 229, .22), transparent 34%),
+            radial-gradient(circle at 16% 92%, rgba(8, 145, 178, .16), transparent 32%) !important;
+        }
+
+        .metric-icon,
+        .mini-chip,
+        .nav-chip,
+        .mode-chip,
+        .pill,
+        .micro-meter,
+        .subtask-row,
+        .stButton button,
+        .stDownloadButton button,
+        .stFormSubmitButton button,
+        div[data-testid="stAlert"],
+        div[data-testid="stMetric"],
+        div[data-testid="stExpander"] {
+          background: rgba(30, 41, 59, .72) !important;
+          border-color: rgba(226, 232, 240, .12) !important;
+          color: var(--ink-soft) !important;
+        }
+
+        .stButton button:hover,
+        .stDownloadButton button:hover,
+        .stFormSubmitButton button:hover {
+          background: rgba(51, 65, 85, .88) !important;
+          border-color: rgba(129, 140, 248, .34) !important;
+        }
+
+        .stTextInput input,
+        .stTextArea textarea,
+        .stNumberInput input,
+        .stSelectbox div[data-baseweb="select"],
+        .stDateInput input,
+        .stTimeInput input {
+          background: rgba(15, 23, 42, .74) !important;
+          border-color: rgba(226, 232, 240, .14) !important;
+          color: var(--ink) !important;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+        }
+
+        .hero h1,
+        .task-title,
+        .metric-value,
+        .coach-title,
+        .brand-name,
+        .habit-name,
+        .ring span,
+        .focus-time,
+        .empty-state strong,
+        .section-title h2 {
+          color: var(--ink) !important;
+        }
+
+        .hero p,
+        .muted,
+        .metric-context,
+        .coach-body,
+        .task-description,
+        .section-title p,
+        .brand-sub {
+          color: var(--muted) !important;
+        }
+
+        .task-top {
+          background: rgba(120, 53, 15, .48);
+          border-color: rgba(251, 191, 36, .22);
+          color: #fde68a;
+        }
+
+        .progress-track {
+          background: rgba(148, 163, 184, .16);
+        }
+
+        .focus-ring-inner {
+          background: rgba(15, 23, 42, .88);
+        }
+
+        .ring {
+          background:
+            conic-gradient(var(--blue) var(--ring), rgba(148,163,184,.18) 0),
+            radial-gradient(circle, rgba(15,23,42,.96) 58%, transparent 59%);
+        }
+
+        .stCheckbox label,
+        label,
+        [data-testid="stWidgetLabel"] {
+          color: var(--ink-soft) !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
 
 # ---------------------------------------------------------------------------
 # Reusable UI helpers
@@ -890,12 +1041,13 @@ def topbar() -> None:
     completion = pct(completed, total_today)
     mode_label = "Calm mode" if st.session_state.calm_mode else "Standard mode"
     minimal_label = "Minimal view" if st.session_state.minimal_mode else "Full view"
+    theme_label = "Dark" if st.session_state.dark_mode else "Light"
     st.markdown(
         f"""
         <div class="app-topbar">
           <div class="topbar-title">
             <span class="orb"></span>
-            <span>{html(mode_label)} · {html(minimal_label)}</span>
+            <span>{html(theme_label)} · {html(mode_label)} · {html(minimal_label)}</span>
           </div>
           <div class="topbar-meta">
             <span class="mini-chip">{completion}% complete</span>
@@ -1036,6 +1188,7 @@ def sidebar() -> str:
 
         st.markdown('<div class="sidebar-panel">', unsafe_allow_html=True)
         st.session_state.calm_mode = st.toggle("Calm mode", value=st.session_state.calm_mode)
+        st.session_state.dark_mode = st.toggle("Dark mode", value=st.session_state.dark_mode)
         st.session_state.minimal_mode = st.toggle("Minimal mode", value=st.session_state.minimal_mode)
         if st.button("✦ Load sample day", use_container_width=True):
             load_sample_data(state)
@@ -1237,16 +1390,18 @@ def plot_config() -> dict:
 
 
 def plotly_layout(fig: go.Figure, height: int = 320) -> go.Figure:
+    font_color = "#dbeafe" if st.session_state.dark_mode else "#334155"
+    grid_color = "rgba(226,232,240,.11)" if st.session_state.dark_mode else "rgba(148,163,184,.18)"
     fig.update_layout(
         height=height,
         margin=dict(l=22, r=22, t=34, b=30),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(255,255,255,0)",
-        font=dict(family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif", color="#334155"),
+        font=dict(family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif", color=font_color),
         showlegend=False,
     )
     fig.update_xaxes(showgrid=False, zeroline=False)
-    fig.update_yaxes(gridcolor="rgba(148,163,184,.18)", zeroline=False)
+    fig.update_yaxes(gridcolor=grid_color, zeroline=False)
     return fig
 
 
