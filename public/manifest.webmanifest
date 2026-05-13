@@ -1,0 +1,17 @@
+{
+  "name": "Momentum ADHD Daily Planner",
+  "short_name": "Momentum",
+  "description": "A calm productivity companion for realistic planning and focus.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
