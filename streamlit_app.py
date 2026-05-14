@@ -42,7 +42,7 @@ st.set_page_config(
     page_title="Momentum ADHD Planner",
     page_icon="M",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto",
 )
 
 
@@ -115,6 +115,30 @@ st.markdown(
     }
 
     html { scroll-behavior: smooth; }
+
+    [data-testid="stHeader"],
+    [data-testid="stToolbar"],
+    [data-testid="stDecoration"],
+    [data-testid="stStatusWidget"],
+    .stAppToolbar,
+    .stToolbar,
+    #MainMenu,
+    footer {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      min-height: 0 !important;
+      max-height: 0 !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    [data-testid="stAppViewContainer"],
+    [data-testid="stMain"],
+    [data-testid="stMainBlockContainer"],
+    .main {
+      background: transparent !important;
+    }
 
     .stApp {
       background:
@@ -762,9 +786,16 @@ st.markdown(
       color: var(--ink);
     }
 
-    .hide-streamlit .stDeployButton,
-    .hide-streamlit footer,
-    .hide-streamlit header { visibility: hidden; height: 0; }
+    .stDeployButton,
+    .stMainMenu,
+    header {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      min-height: 0 !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
 
     @keyframes reveal {
       from { opacity: 0; transform: translateY(10px); }
@@ -785,7 +816,6 @@ st.markdown(
       }
     }
     </style>
-    <div class="hide-streamlit"></div>
     """,
     unsafe_allow_html=True,
 )
@@ -1187,9 +1217,9 @@ def sidebar() -> str:
                 st.rerun()
 
         st.markdown('<div class="sidebar-panel">', unsafe_allow_html=True)
-        st.session_state.calm_mode = st.toggle("Calm mode", value=st.session_state.calm_mode)
-        st.session_state.dark_mode = st.toggle("Dark mode", value=st.session_state.dark_mode)
-        st.session_state.minimal_mode = st.toggle("Minimal mode", value=st.session_state.minimal_mode)
+        st.toggle("Calm mode", key="calm_mode")
+        st.toggle("Dark mode", key="dark_mode")
+        st.toggle("Minimal mode", key="minimal_mode")
         if st.button("✦ Load sample day", use_container_width=True):
             load_sample_data(state)
             persist_and_rerun(state)
